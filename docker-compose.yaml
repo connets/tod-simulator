@@ -1,0 +1,30 @@
+version: '3.9'
+
+services:
+  tod_simulator:
+    
+    build: tod_simulator/
+    volumes:
+      - ./out/carla:/tod_simulator/out
+    ports:
+      - 5555:5555
+    environment:
+      - simulator_configuration_file_path=configuration/simulator/docker.yaml
+
+  carla_simulator:
+    image: carlasim/carla:0.9.13
+    privileged: true
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    command: ./CarlaUE4.sh -RenderOffScreen
+  
+  tod_omnet_network:
+    build: tod_omnet_network
+    volumes:
+      - ./out/omnet:/app/tod_omnet_network/simulations/results
+    
