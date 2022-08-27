@@ -5,7 +5,11 @@ services:
     
     build: tod_simulator/
     volumes:
-      - ./out/carla:/tod_simulator/out
+      - type: bind
+        source: ./tod_simulator/configuration
+        target: /app/tod_simulator/configuration
+        read_only: true
+      - ./results/carla:/app/tod_simulator/out
     ports:
       - 5555:5555
     environment:
@@ -21,10 +25,17 @@ services:
             - driver: nvidia
               count: all
               capabilities: [gpu]
-    command: ./CarlaUE4.sh -RenderOffScreen
+    ports:
+      - 2000:2000
+      - 2001:2001
+      - 2002:2002
+    command:  ./CarlaUE4.sh -RenderOffScreen
   
   tod_omnet_network:
     build: tod_omnet_network
     volumes:
-      - ./out/omnet:/app/tod_omnet_network/simulations/results
-    
+      - type: bind
+        source: ./tod_omnet_network/simulations
+        target: /app/tod_omnet_network/simulations
+        read_only: true
+      - ./results/omnet:/app/tod_omnet_network/results
