@@ -2,7 +2,8 @@ version: '3.9'
 
 services:
   tod_simulator:
-    
+    depends_on: 
+      - carla_simulator
     build: tod_simulator/
     volumes:
       - type: bind
@@ -16,7 +17,8 @@ services:
       - simulator_configuration_file_path=configuration/simulator/docker.yaml
 
   carla_simulator:
-    image: carlasim/carla:0.9.13
+    #image: carlasim/carla:0.9.13
+    build: .
     privileged: true
     deploy:
       resources:
@@ -29,9 +31,12 @@ services:
       - 2000:2000
       - 2001:2001
       - 2002:2002
-    command:  ./CarlaUE4.sh -RenderOffScreen
+      - 4242:4242
+    #command:  ./CarlaUE4.sh -RenderOffScreen
   
   tod_omnet_network:
+    depends_on: 
+      - tod_simulator
     build: tod_omnet_network
     volumes:
       - type: bind
