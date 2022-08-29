@@ -10,6 +10,6 @@ git clone https://github.com/Jaivra/tod_simulator_compose --recurse-submodules
 git submodule update --recursive --remote
 ```
 ```sh
-docker-compose build -t tod_simulator
-docker-compose run tod_simulator
+docker-compose build
+docker-compose up
 ```
