@@ -1,7 +1,7 @@
 [submodule "tod_simulator"]
 	path = tod_simulator
 	url = https://github.com/Jaivra/tod_simulator
-	branch = main
+	branch = dev
 [submodule "tod_omnet_network"]
 	path = tod_omnet_network
 	url = https://github.com/Jaivra/tod_omnet_network

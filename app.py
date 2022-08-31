@@ -5,19 +5,21 @@ import psutil
 import zerorpc
 from time import sleep
 
+from psutil import TimeoutExpired
+
 
 class CarlaHandlerRPC:
 
     def __init__(self) -> None:
         self._carla_simulator_proc = None
-        self._carla_launch_script = ['/home/carla/CarlaUE4.sh', '-RenderOffScreen']
+        self._carla_launch_script = ['/home/carla/CarlaUE4.sh', '-RenderOffScreen', '>/dev/null', '2>/dev/null']
 
     def _carla_service_is_active(self):
         return self._carla_simulator_proc is not None and self._carla_simulator_proc.poll() is None
 
     def _start_process(self):
-        self._carla_simulator_proc = psutil.Popen(self._carla_launch_script, shell=False)
-        print(self._carla_simulator_proc.pid)
+        self._carla_simulator_proc = psutil.Popen(self._carla_launch_script, stdout=None, stderr=None, shell=False)
+        #print(self._carla_simulator_proc.pid)
         while self._carla_simulator_proc.children(recursive=True) == 0:
             ...
 
@@ -30,19 +32,29 @@ class CarlaHandlerRPC:
             children = parent.children(recursive=True)
             for process in children:
                 # app.logger.warning("====> " + str(process.pid))
-                process.terminate()
+                #print("===> Trying to kill chilren process...")
+                process.kill()
                 process.wait()
-
+                #print("===> Finished to kill chilren process...")
+                
         # app.logger.warning("====> " + str(carla_proc.pid))
         kill_child_processes(self._carla_simulator_proc.pid)
-        self._carla_simulator_proc.terminate()
+        self._carla_simulator_proc.kill()
+        #print("===> Trying to kill main process...")
         self._carla_simulator_proc.wait()
+        #print("===> Finished to kill main process...")
 
 
     def reload_simulator(self):
         if self._carla_service_is_active():
+            #print("===> Trying to stop process...")
             self._stop_process()
+            #print("===> Finished to stop process...")
+
+        #print("===> Trying to start process...")
         self._start_process()
+        #print("===> Finished to start process...")
+
         res = {'result': True, 'pid': self._carla_simulator_proc.pid}
         # return json.dumps(res)
         return True
