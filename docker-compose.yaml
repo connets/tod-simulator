@@ -2,8 +2,8 @@ version: '3.9'
 
 services:
   tod_simulator:
-    depends_on: 
-      - carla_simulator
+    #depends_on: 
+    #  - carla_simulator
     build: tod_simulator/
     volumes:
       - type: bind
@@ -35,8 +35,8 @@ services:
     #command:  ./CarlaUE4.sh -RenderOffScreen
   
   tod_omnet_network:
-    depends_on: 
-      - tod_simulator
+    #depends_on: 
+    #  - tod_simulator
     build: tod_omnet_network
     volumes:
       - type: bind
