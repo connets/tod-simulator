@@ -3,11 +3,6 @@ import sys
 import zmq
 
 
-def read_json(type_request):
-    with open(f'documentation/api_carla_omnet/{type_request}/from_omnet.json') as f:
-        return json.load(f)
-
-
 def send_info(socket, t):
     socket.send(json.dumps(t).encode("utf-8"))
 
@@ -24,9 +19,13 @@ if __name__ == '__main__':
     refresh_status = 0.05
     simulation_step = 0.01
 
-    init_configuration_json_path = sys.argv[1]
 
-    init_configuration_json = json.load(open(init_configuration_json_path, 'r'))
+    def read_json(type_request):
+        with open(f'API/{type_request}.json') as f:
+            return json.load(f)
+
+
+    init_configuration_json = read_json('init')
 
     payload = init_configuration_json['payload']
     interested_actor = payload['actors'][0]
@@ -34,11 +33,13 @@ if __name__ == '__main__':
     actor_id = interested_actor['actor_id']
     agent_id = interested_agent['agent_id']
 
-    if len(sys.argv) >= 3:
-        payload['seed'] = int(sys.argv[2])
+    if len(sys.argv) >= 2:
+        payload['seed'] = int(sys.argv[1])
+        payload['run_id'] +=  f"#{payload['seed']}"
+
     context = zmq.Context()
     socket = context.socket(zmq.REQ)
-    socket.connect("tcp://localhost:5555")
+    socket.connect("tcp://tod_simulator:5555")
     print("connected")
 
     send_info(socket, init_configuration_json)
@@ -47,7 +48,7 @@ if __name__ == '__main__':
     limit_sim_time = 15
 
     while True:
-        for _ in range(int(refresh_status/simulation_step)):
+        for _ in range(int(refresh_status / simulation_step)):
             timestamp += simulation_step
             req = read_json('simulation_step')
             req['timestamp'] = timestamp
