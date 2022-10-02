@@ -1,5 +1,6 @@
 import os, re, sys
 import shutil
+import multiprocessing
 
 filter_scavetool = """(module =~ "TODNetTown4.car.app[0]" AND (
     (name =~ instructionDelay:vector) OR
@@ -38,12 +39,13 @@ def on_creation_carla_result_folder(result_folder, sim_name):
     # print('CARLA:', result_folder)
     ...
 
+
 if __name__ == '__main__':
     # Move files to results directory
 
-    carla_results_parent_path = 'carla/'
-    omnet_results_parent_path = 'omnet/'
-    final_results_path = 'merged_simulations_test/'
+    carla_results_parent_path = './tod_analysis/archimedes_results/past_simulations_25_09/carla/test_carla_omnet/'
+    omnet_results_parent_path = './tod_analysis/archimedes_results/past_simulations_25_09/omnet/'
+    final_results_path = './tod_analysis/archimedes_results/merged_simulations_test/'
 
     if not os.path.exists(final_results_path):
         os.makedirs(final_results_path)
@@ -52,8 +54,7 @@ if __name__ == '__main__':
     # print(all_simulations_name)
 
     interested_omnet_extensions_results = {'vec', 'vci', 'sca', 'out'}
-
-    for sim_name in all_simulations_name:
+    def export_simulation(sim_name):
         carla_sim_path = carla_results_parent_path + sim_name + '/'
         destination_path = final_results_path + sim_name + '/'
         carla_destination_sim_path = destination_path + 'carla/'
@@ -66,3 +67,9 @@ if __name__ == '__main__':
             omnet_file_to_move = f'{omnet_results_parent_path}{sim_name}.{ext}'
             shutil.copy(omnet_file_to_move, omnet_destination_sim_path)
         on_creation_omnet_result_folder(omnet_destination_sim_path, sim_name)
+
+
+    with multiprocessing.Pool() as p:
+        p.map(export_simulation, all_simulations_name)
+    # for simulation_name in all_simulations_name:
+    #     export_simulation(simulation_name)
