@@ -1,6 +1,7 @@
-import os, re, sys
+import os, re, sys, glob
 import shutil
 import multiprocessing
+import tqdm
 
 filter_scavetool = """(module =~ "TODNetTown4.car.app[0]" AND (
     (name =~ instructionDelay:vector) OR
@@ -43,9 +44,9 @@ def on_creation_carla_result_folder(result_folder, sim_name):
 if __name__ == '__main__':
     # Move files to results directory
 
-    carla_results_parent_path = './tod_analysis/archimedes_results/past_simulations_25_09/carla/test_carla_omnet/'
-    omnet_results_parent_path = './tod_analysis/archimedes_results/past_simulations_25_09/omnet/'
-    final_results_path = './tod_analysis/archimedes_results/merged_simulations_test/'
+    carla_results_parent_path = './tod_analysis/archimedes_results/carla/test_carla_omnet/'
+    omnet_results_parent_path = './tod_analysis/archimedes_results/omnet/'
+    final_results_path = './tod_analysis/archimedes_results/merged_simulations/'
 
     if not os.path.exists(final_results_path):
         os.makedirs(final_results_path)
@@ -53,7 +54,6 @@ if __name__ == '__main__':
     all_simulations_name = os.listdir(carla_results_parent_path)
     # print(all_simulations_name)
 
-    interested_omnet_extensions_results = {'vec', 'vci', 'sca', 'out'}
     def export_simulation(sim_name):
         carla_sim_path = carla_results_parent_path + sim_name + '/'
         destination_path = final_results_path + sim_name + '/'
@@ -63,13 +63,16 @@ if __name__ == '__main__':
 
         omnet_destination_sim_path = destination_path + 'omnet/'
         os.makedirs(omnet_destination_sim_path)
-        for ext in interested_omnet_extensions_results:
-            omnet_file_to_move = f'{omnet_results_parent_path}{sim_name}.{ext}'
-            shutil.copy(omnet_file_to_move, omnet_destination_sim_path)
-        on_creation_omnet_result_folder(omnet_destination_sim_path, sim_name)
+
+        if os.path.exists(f'{omnet_results_parent_path}{sim_name}.vec') and os.path.exists(f'{omnet_results_parent_path}{sim_name}.sca'):
+            for omnnet_file_path in glob.iglob(f'{omnet_results_parent_path}{sim_name}.*'):
+                shutil.copy(omnnet_file_path, omnet_destination_sim_path)
+            on_creation_omnet_result_folder(omnet_destination_sim_path, sim_name)
 
 
     with multiprocessing.Pool() as p:
         p.map(export_simulation, all_simulations_name)
+        #for _ in tqdm.tqdm(, total=len(all_simulations_name)):
+        #    ...
     # for simulation_name in all_simulations_name:
     #     export_simulation(simulation_name)
