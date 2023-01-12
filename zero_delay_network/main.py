@@ -16,7 +16,7 @@ def receive_info(socket):
 
 
 if __name__ == '__main__':
-    refresh_status = 0.05
+    refresh_status = 0.01
     simulation_step = 0.01
 
 

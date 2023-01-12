@@ -1,4 +1,6 @@
+# docker compose --profile omnet_network build
 # docker compose --profile omnet_network up
+# docker compose --profile zero_delay_network build
 # docker compose --profile zero_delay_network up
 
 version: '3.9'
@@ -14,14 +16,15 @@ services:
         target: /app/tod_simulator/configuration
         read_only: true
       - ./results/carla:/app/tod_simulator/out
-    ports:
-      - 5555:5555
+    #ports:
+      #- 5555:5555
     environment:
       - simulator_configuration_file_path=configuration/simulator/docker.yaml
 
   carla_simulator:
     #image: carlasim/carla:0.9.13
     build: .
+
     privileged: true
     deploy:
       resources:
@@ -31,10 +34,7 @@ services:
               count: all
               capabilities: [gpu]
     ports:
-      - 2000:2000
-      - 2001:2001
-      - 2002:2002
-      - 4242:4242
+      - 2000-2002:2000-2002
     #command:  ./CarlaUE4.sh -RenderOffScreen
   
   tod_omnet_network:
