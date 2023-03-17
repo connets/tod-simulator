@@ -5,7 +5,7 @@ WORKDIR /app
 COPY requirements.txt ./requirements.txt
 RUN rm /etc/apt/sources.list.d/cuda.list \
     && apt update \
-    && apt install -y --no-install-recommends python3-dev python3-setuptools python3-pip \
+    && apt install -y --no-install-recommends python3-dev python3-setuptools python3-pip xdg-user-dirs xdg-utils \
     && pip3 install --upgrade pip \
     && pip install --no-cache-dir -r requirements.txt
     #&& pip3 install zerorpc psutil
