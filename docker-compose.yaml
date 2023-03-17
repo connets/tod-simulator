@@ -35,6 +35,7 @@ services:
               capabilities: [gpu]
     ports:
       - 2000-2002:2000-2002
+      - 4242:4242
     #command:  ./CarlaUE4.sh -RenderOffScreen
   
   tod_omnet_network:
