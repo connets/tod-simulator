@@ -6,6 +6,5 @@
 !tod_omnet_network
 !tod_simulator
 !.gitignore
-
-!zero_delay_network/
-!/zero_delay_network/*
+!zero_delay_network
+!zero_delay_network/**
