@@ -1,7 +1,5 @@
 {
   "message_type": "SIMULATION_STEP",
-  "payload": {
-    "carla_timestep": 0.05
-  },
+  "carla_timestep": 0.05,
   "timestamp": 0
 }
