@@ -6,16 +6,28 @@
 - NVIDIA Container Toolkit
 ## Installation
 ```sh
-git clone https://github.com/Jaivra/tod_simulator_compose --recurse-submodules
+git clone https://github.com/connets/tod_simulator_compose --recurse-submodules
 git submodule update --recursive --remote
 ```
-if you want to run it with omnet network for communication:
+
+## Customizing the TOD Simulation Setup
+To customize the TOD simulation setup, refer to the tod_omnet_network and tod_simulator repositories.
+
+
+## Usage
+To run the simulator, use docker compose, which allows you to launch all simulation components on a single machine or across multiple machines.
+
+To run the application with OMNeT Simulator for communication and simulate message delays between vehicles and operators, execute the following Docker Compose commands with the **\`omnet_network\`** profile:
+
+```sh
+docker compose --profile omnet_network build
+docker compose --profile omnet_network up
+```
+If you want to run the application without any delays applied to the messages between vehicles and operators (in-vehicle users), execute the following Docker Compose commands with the **\`zero_delay_network\`** profile:
 ```sh
 docker-compose --profile zero_delay_network build
 docker-compose --profile zero_delay_network up 
 ```
-if you want to run it without any delays applied to the messages between vehicle and operator (in-vehicle user):
-```sh
-docker-compose --profile zero_delay_network build
-docker-compose --profile zero_delay_network up 
-```
+
+## Results
+After the simulation is completed, you can access the results in the **\`results\`** folder. This folder contains two subdirectories for the vehicular and network results, corresponding to the Carla and OMNeT simulations respectively. You can map the results of each simulation based on the directory name, which corresponds to the simulation ID.
