@@ -27,9 +27,12 @@ docker compose --profile omnet_network up
 ```
 If you want to run the application without any delays applied to the messages between vehicles and operators (in-vehicle users), execute the following Docker Compose commands with the **\`zero_delay_network\`** profile:
 ```sh
-docker-compose --profile zero_delay_network build
-docker-compose --profile zero_delay_network up 
+docker compose --profile zero_delay_network build
+docker compose --profile zero_delay_network up 
 ```
 
 ## Results
 After the simulation is completed, you can access the results in the **\`results\`** folder. This folder contains two subdirectories for the vehicular and network results, corresponding to the Carla and OMNeT simulations respectively. You can map the results of each simulation based on the directory name, which corresponds to the simulation ID.
+
+## License
+ToD-Simulator is distributed under the MIT License. See LICENSE for more information.
