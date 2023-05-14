@@ -37,7 +37,7 @@ if __name__ == '__main__':
 
     context = zmq.Context()
     socket = context.socket(zmq.REQ)
-    socket.connect("tcp://tod_simulator:5555")
+    socket.connect("tcp://tod-carla:5555")
     print("connected")
 
     send_info(socket, init_configuration_json)
