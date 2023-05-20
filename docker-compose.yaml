@@ -1,8 +1,3 @@
-# docker compose --profile omnet_network build
-# docker compose --profile omnet_network up
-# docker compose --profile zero_delay_network build
-# docker compose --profile zero_delay_network up
-
 version: '3.9'
 
 services:
@@ -69,7 +64,7 @@ services:
     #depends_on: 
     #  - tod_simulator
     build: 
-      context: zero_delay_network
+      context: zero-delay-network
       args:
         seeds: 1000 2000 3000 4000 5000 6000 # change here seeds
     profiles:

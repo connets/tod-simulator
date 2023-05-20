@@ -11,7 +11,7 @@ RUN rm /etc/apt/sources.list.d/cuda.list \
     #&& pip3 install zerorpc psutil
 ENV LC_ALL=C.UTF-8 
 ENV LANG=C.UTF-8
-COPY app.py app.py
+COPY sim_controller.py sim_controller.py
 USER carla
 CMD python3 sim_controller.py /home/carla/CarlaUE4.sh
 #CMD python3 -m flask run --host=0.0.0.0

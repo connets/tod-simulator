@@ -13,3 +13,4 @@
 !zero_delay_network/**
 !images
 !images/**
+!.env
