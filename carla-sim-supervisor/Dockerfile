@@ -13,5 +13,5 @@ ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 COPY app.py app.py
 USER carla
-CMD python3 app.py
+CMD python3 sim_controller.py /home/carla/CarlaUE4.sh
 #CMD python3 -m flask run --host=0.0.0.0

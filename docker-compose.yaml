@@ -9,7 +9,7 @@ services:
   tod-carla:
     #depends_on: 
     #  - carla_simulator
-    build: tod-carla/
+    build: tod-carla
     volumes:
       - type: bind
         source: ./tod-carla/configuration
@@ -30,7 +30,7 @@ services:
 
   carla-simulator:
     #image: carlasim/carla:0.9.13
-    build: .
+    build: carla-sim-supervisor
 
     privileged: true
     deploy:

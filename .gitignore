@@ -4,6 +4,8 @@
 !app.py
 !docker-compose.yaml
 !README.md
+!carla-sim-supervisor
+!carla-sim-supervisor/**
 !tod_omnet_network
 !tod_simulator
 !.gitignore

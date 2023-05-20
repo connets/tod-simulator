@@ -4,15 +4,15 @@ import signal
 import psutil
 import zerorpc
 from time import sleep
-
+import sys
 from psutil import TimeoutExpired
 
 
 class CarlaHandlerRPC:
 
-    def __init__(self) -> None:
+    def __init__(self, carla_sh_path) -> None:
         self._carla_simulator_proc = None
-        self._carla_launch_script = ['/home/carla/CarlaUE4.sh', '-RenderOffScreen', '>/dev/null', '2>/dev/null']
+        self._carla_launch_script = [carla_sh_path, '-RenderOffScreen', '>/dev/null', '2>/dev/null']
 
     def _carla_service_is_active(self):
         return self._carla_simulator_proc is not None and self._carla_simulator_proc.poll() is None
@@ -69,7 +69,9 @@ class CarlaHandlerRPC:
 
 
 if __name__ == '__main__':
-    s = zerorpc.Server(CarlaHandlerRPC())
+    carla_sh_path = sys.argv[1]
+    print(carla_sh_path)
+    s = zerorpc.Server(CarlaHandlerRPC(carla_sh_path))
     s.bind('tcp://0.0.0.0:4242')
     print('RPC server running')
     s.run()
