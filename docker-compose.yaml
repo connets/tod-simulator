@@ -19,7 +19,14 @@ services:
     #ports:
       #- 5555:5555
     environment:
-      - simulator_configuration_file_path=configuration/simulator/docker.yaml
+      - SIMULATOR_CONFIGURATION_FILE_PATH
+      - TOD_CARLA_ARGS
+
+    profiles:
+      - remote-driver
+      - on-board-driver
+      
+
 
   carla-simulator:
     #image: carlasim/carla:0.9.13
@@ -36,6 +43,10 @@ services:
     ports:
       - 2000-2002:2000-2002
       - 4242:4242
+
+    profiles:
+      - within-carla-sim
+
     #command:  ./CarlaUE4.sh -RenderOffScreen
   
   tod-omnet:
@@ -50,7 +61,8 @@ services:
       - ./results/omnet:/app/tod-omnet/results
 
     profiles:
-      - omnet_network
+      - remote-driver
+      
 
    
   zero-delay-network:
@@ -61,4 +73,4 @@ services:
       args:
         seeds: 1000 2000 3000 4000 5000 6000 # change here seeds
     profiles:
-      - zero_delay_network
+      - on-board-driver
