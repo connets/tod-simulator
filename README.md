@@ -20,8 +20,7 @@ To run the simulator, it is highly recommended to use Docker Compose, a tool tha
 ## Installation
 To get started, clone the TOD-simulator repository and update the submodules:
 ```sh
-git clone https://github.com/connets/tod-simulator --recurse-submodules
-git submodule update --recursive --remote
+git clone https://github.com/connets/tod-simulator --recurse-submodules && cd tod-simulator && git submodule update --recursive --remote
 ```
 
 # Customizing ToD simulation Setup
@@ -35,7 +34,7 @@ Docker Compose provides profiles for different scenarios:
    - `on-board-driver`: Runs the TOD-Simulator with the agent inside the vehicle, without any delays in the communication.
    - `remote-driver`: Runs the TOD-Simulator with the agent located remotely, using `tod-omnet` as the simulator for the communication network.
    - `within-carla-sim`: Runs the CARLA simulator as part of the Docker Compose setup. This is recommended to avoid configuration issues.
-
+Please note that the `on-board-driver` and `remote-driver` profiles are mutually exclusive, so you must choose only one of them based on your requirements.
 
 ## Usage
 To run the TOD-Simulator with an on-board driver, execute the following commands:

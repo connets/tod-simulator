@@ -33,15 +33,23 @@ class CarlaHandlerRPC:
             for process in children:
                 # app.logger.warning("====> " + str(process.pid))
                 #print("===> Trying to kill chilren process...")
-                process.kill()
-                process.wait()
+                try:
+                    process.kill()
+                    process.wait()
+                except psutil.NoSuchProcess:  # Catch the error caused by the process no longer existing
+                    pass  # Ignore it
+        
+                
                 #print("===> Finished to kill chilren process...")
                 
         # app.logger.warning("====> " + str(carla_proc.pid))
         kill_child_processes(self._carla_simulator_proc.pid)
-        self._carla_simulator_proc.kill()
-        #print("===> Trying to kill main process...")
-        self._carla_simulator_proc.wait()
+        try:
+            self._carla_simulator_proc.kill()
+            #print("===> Trying to kill main process...")
+            self._carla_simulator_proc.wait()
+        except psutil.NoSuchProcess:  # Catch the error caused by the process no longer existing
+            pass  # Ignore it
         #print("===> Finished to kill main process...")
 
 
