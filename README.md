@@ -1,3 +1,4 @@
+**[CARLANeT](https://github.com/carlanet) library implements a sophisticated approach for co-simulation between OMNeT++ and CARLA.**
 # TOD-simulator
 ToD-Simulator is a simulation environment for the TeleOperatedDriving service. It consists of two key components: `tod-carla`, which is an extension of the CARLA simulator used to simulate the inter-vehicular system, and `tod-omnet`, which uses OMNeT++ to simulate the network system. Communication between the two simulators is handled by the open-source library [CARLANeT](https://github.com/carlanet), which ensures consistent co-simulation.
 <p align="center">
